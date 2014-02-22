@@ -62,10 +62,10 @@ As I mentioned, I'm using the code from the real project, **RNCryptor** <a href=
 <br />
 First step is to copy the common code in a common directory, so in this case I copy just the source and header files:
 
-- RNCryptor.h- RNCryptor.m- RNCryptor+Private.h- RNCryptorEngine.h- RNCryptorEngine.m- RNDecryptor.h- RNDecryptor.m- RNEncryptor.h- RNEncryptor.m
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-CommonCopy
+.png)
 
 Next step is the creation of the Frameworks
-
 
 <a name="iosframework" />
 
@@ -140,44 +140,32 @@ so you sould get something similar to the following:
 
 ### Step 3: Create the Primary Framework Header
 
-Developers expect to be able to import your framework by importing the `<Serenity/Serenity.h>`
-header. Ensure that your project has such a header (if you created a new static library then there
-should already be a Serenity.h and Serenity.m file; you can delete the .m).
+Developers expect to be able to import your framework and do it just by importing one file. In my example it will the be `<LPrncryptor/LPrncryptor.h>` header. Ensure that your project has such a header. So, go and create such file under LPrncryptor group and *important: under the same Commoon directory where you copied all the common files*. File->new file->iOS->C and C++->Header file and name it LPrncryptor.h and check the LPrncryptor target.
 
-Within this header you are going to import all of the public headers for your framework. For
-example, let's assume that we have some `Widget` with a .h and .m. Our Serenity.h file would look
-like this:
+Within this header you are going to import **all of the public headers for your framework**. I'm my example they will be: RNCryptor.h, RNCryptorEngine.h, RNDecryptor.h, RNEncryptor.h but not the file RNCryptor+Private.h which is private. So, the final aspect of my new file would be: 
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-CommonHeader.png)
+
+Then in your projects you only import this file
 
 ```
 #import <Foundation/Foundation.h>
-
-#import <Serenity/Widget.h>
+:
+#import <LPrncryptor/LPrncryptor.h>
 ```
 
-Once you've created your framework header file, you need to make it a "public" header. Public
-headers are headers that will be copied to the .framework and can be imported by those using your
-framework. This differs from "project" headers which will *not* be distributed with the framework.
-This distinction is what allows you to have a concept of public and private APIs.
-
-To change a file's [target membership visibility in XCode 4.4+]
-(http://stackoverflow.com/questions/13571080/cant-change-target-membership-visibility-in-xcode-4-5),
-you'll need to select the Static Library target you created (Serenity), open the Build Phases tab: 
-
-**Xcode 4.X:**
-Click on Add Build Phase > Add Copy Headers. 
+Once you've created your framework header file and have the Common files, you just need to make it them "public" header. Public headers are headers that will be copied to the .framework and can be imported by those using your framework. This differs from "project" headers which will *not* be distributed with the framework. This distinction is what allows you to have a concept of public and private APIs.
 
 **Xcode 5:**
 Add Build Phases from the menu. Click on Editor > Add Build Setting -> Add Copy Headers. Note: If the menu options are grayed out, you'll need to click on the whitespace below the Build Phases to regain focus and retry.
 
-You'll see 3 sections for Public, Private, and Project headers. To modify the scope of any header, drag and drop the header files between the sections. Alternatively you can open the Project Navigator and select the header. Next expand the Utilities pane for the File Inspector.
-![](https://github.com/jverkoey/iOS-Framework/raw/master/gfx/utilitiesbutton.png)
-(Cmd+Option+0).
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_copyheaders1.png)
 
-Look at the "Target Membership" group and ensure that the checkbox next to the .h file is checked.
-Change the scope of the header from "Project" to "Public". You might have to uncheck and check the box to get the dropdown list. This will ensure that the header gets
-copied to the correct location in the copy headers phase.
+You should end up with something similar to this: 
 
-![](https://github.com/jverkoey/iOS-Framework/raw/master/gfx/publicheaders.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_copyheaders2.png)
+
+
 
 ### Step 3: Update the Public Headers Location
 
