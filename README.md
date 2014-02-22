@@ -44,7 +44,7 @@ Overview
 
 First I'm going to create three directories, one for the common code and the other two for iOS and OSX Xcode frameworks. 
 
-![image](https://raw2.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-dirStructure.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-dirStructure.png)
 
 I'll copy the common code into the Common directory and then create a iOS Framework (this one is the difficult part) and finally create an OSX Framework (easy). 
 
@@ -87,7 +87,6 @@ iOS Framework: Create the Static Library Target
 
 ### Step 1: Create a New "Cocoa Touch Static Library" Project
 
-![](PENDIENTE)
 
 The product name will be the name of your framework, in my case, `LPrncryptor` will generate
 `LPrncryptor.framework` once we've set up the project.
@@ -96,14 +95,50 @@ The product name will be the name of your framework, in my case, `LPrncryptor` w
 - Product Name: LPrncryptor
 - Directory: LPrncryptor/Framework-iOS
 
-From XCode I can now delete the LPrncryptor.m and LPrncryptor.h files and send them to the trash. 
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newproject.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newprojectdir.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newprojectname.png)
 
-Now I can link the source and header files from the Common directory, so you sould get something similar to the following: 
+So you end up with something similar to 
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_projectinit.png)
 
 
 
 
-### Step 2: Create the Primary Framework Header
+### Step 2: Rename Project adding "_Framework-iOS"
+
+I like to rename the XCode project (not its subdirctories nor the groups or files) to highlight it's for iOS. I like to have a name like LPrncryptor_Framework-iOS.xcodeproj for the Project file and a different name "LPrncryptor" for everything else. The reason is simple, I like to differentiate correctly from the OSX framework project that I'll create later. 
+
+So, within XCode and the iOS project open, rename it:
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_renameProject1.png)
+
+Don't rename the project content items, 
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_renameProject2.png)
+ 
+With versions previous to XCode 5, after this you may need to change the manage scheme from here. 
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_renameProject3.png)
+
+If using XCode 5 I've found it's not necessary.
+
+### Step 3: Delete unnesary files and add Common code
+
+From XCode you can now delete the LPrncryptor.m and LPrncryptor.h files and send them to the trash.
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_deleteTwoFiles.png)
+
+Then bind the common source and header files from the Common directory
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_bindcommon.png)
+
+so you sould get something similar to the following: 
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_bindcommondone.png)
+
+
+### Step 3: Create the Primary Framework Header
 
 Developers expect to be able to import your framework by importing the `<Serenity/Serenity.h>`
 header. Ensure that your project has such a header (if you created a new static library then there
