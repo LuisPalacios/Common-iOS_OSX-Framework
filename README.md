@@ -1,3 +1,5 @@
+NOTE: THIS DOCUMENT IS STILL WORK IN PROGRESS ... 
+
 Introduction
 ============
 
@@ -19,8 +21,11 @@ Para usar un ejemplo durante el documento he optado por algo real, voy a usar el
 Table of Contents 
 ===================
 
-- [Frameworks para iOS y para OSX](#walkthrough)
-  - [Resumen](#resumen)
+- [Common iOS and OSX Frameworks](#walkthrough)
+  - [Overview](#overview)
+  - [Common](#overview)
+  - [iOS Framwork](#iosframework)
+  - [OSX Framwork](#osxframework)
 - [License](#license)
 
 
@@ -39,16 +44,21 @@ Overview
 
 First I'm going to create three directories, one for the common code and the other two for iOS and OSX Xcode frameworks. 
 
+![image](https://raw2.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-dirStructure.png)
 
-![image](http://)
-
-
-
+I'll copy the common code into the Common directory and then create a iOS Framework (this one is the difficult part) and finally create an OSX Framework (easy). 
 
 
+<a name="common" />
+Common code
+-----------
 
 
-Voy a crear tres directorios the project we are going to have three targets: a static library, a bundle, and an aggregate.
+<a name="iosframework" />
+iOS Framework
+-------------
+
+crear tres directorios the project we are going to have three targets: a static library, a bundle, and an aggregate.
 
 The static library target will build the source into a static library (.a) and specify which headers
 will be "public", meaning they will be accessible from the .framework when we distribute it.
@@ -59,6 +69,12 @@ The aggregate target will build the static library for i386/armv6/armv7/armv7s, 
 binary, and also build the bundle. You will run this target when you plan to distribute the
 .framework.
 
+
+<a name="osxframework" />
+OSX Framework
+-------------
+
+crear tres directorios the project we are going to have three targets: a static library, a bundle, and an aggregate.
 
 
 <a name="license" />
