@@ -367,8 +367,13 @@ SF_TARGET_NAME="LPrncryptor"
 
 ### Step 4: Build and Verify
 
-You now have everything set up to build a distributable .framework to third-party developers. Try
-building the aggregate target. Once it's done, expand the Products folder in Xcode, right click the
+You now have everything set up to build a distributable .framework to third-party developers. 
+
+**SELECT YOUR Aggregate target and build it**. Notice this step, it's important, don't select the LPrncryptor target but the "Aggregate" target, in my case I'm selecting mine, that I called "Framework"
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newTargetAggregate5.png)
+
+Once it's done, expand the Products folder in Xcode, right click the
 static library and click "Show in Finder". If this doesn't open Finder to where the static library
 exists then try opening
 `~/Library/Developer/Xcode/DerivedData/<project name>/Build/Products/Debug-iphonesimulator/`.
@@ -378,6 +383,7 @@ Within this folder you will see your .framework folder.
 You can now drag the .framework elsewhere, zip it up, upload it, and distribute it to your
 third-party developers.
 
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newTargetAggregate6.png)
 
 
 
