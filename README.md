@@ -153,7 +153,7 @@ Then in your projects you only import this file
 #import <LPrncryptor/LPrncryptor.h>
 ```
 
-### Step 5: Make headers are public
+### Step 5: Make headers public
 
 Once you've created your framework header file and have the Common files, you just need to make it them "public" header. Public headers are headers that will be copied to the .framework and can be imported by those using your framework. This differs from "project" headers which will *not* be distributed with the framework. This distinction is what allows you to have a concept of public and private APIs.
 
@@ -195,6 +195,7 @@ settings:
     "Strip Debug Symbols During Copy" => No (for all settings)
     "Strip Style" => Non-Global Symbols (for all settings)
 
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_nostrip.png)
 
 ### Step 8: Prepare the Framework for use as a Dependent Target
 
@@ -208,7 +209,7 @@ script. Add a post-build script by selecting your project in the Project Navigat
 **Xcode 5:** Select Editor menu > Add Build Phase > Add Run Script Build Phase
 
 Paste the following script in the source portion of the run script build phase. You can rename the phase by clicking
-the title of the phase (I've named it "Prepare Framework", for example).
+the title of the phase (I've named it "LP_Prepare Framework (Run Script)", for example).
 
 #### prepare_framework.sh
 
@@ -228,7 +229,8 @@ mkdir -p "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers"
 
 ```
 
-![](https://github.com/jverkoey/iOS-Framework/raw/master/gfx/prepareframework.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_prepareframework.png)
+
 
 This will generate the following folder structure:
 
