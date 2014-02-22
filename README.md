@@ -62,8 +62,7 @@ As I mentioned, I'm using the code from the real project, **RNCryptor** <a href=
 <br />
 First step is to copy the common code in a common directory, so in this case I copy just the source and header files:
 
-![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-CommonCopy
-.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-CommonCopy.png)
 
 Next step is the creation of the Frameworks
 
@@ -138,7 +137,7 @@ so you sould get something similar to the following:
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_bindcommondone.png)
 
 
-### Step 3: Create the Primary Framework Header
+### Step 4: Create the Primary Framework Header
 
 Developers expect to be able to import your framework and do it just by importing one file. In my example it will the be `<LPrncryptor/LPrncryptor.h>` header. Ensure that your project has such a header. So, go and create such file under LPrncryptor group and *important: under the same Commoon directory where you copied all the common files*. File->new file->iOS->C and C++->Header file and name it LPrncryptor.h and check the LPrncryptor target.
 
@@ -154,6 +153,8 @@ Then in your projects you only import this file
 #import <LPrncryptor/LPrncryptor.h>
 ```
 
+### Step 5: Make headers are public
+
 Once you've created your framework header file and have the Common files, you just need to make it them "public" header. Public headers are headers that will be copied to the .framework and can be imported by those using your framework. This differs from "project" headers which will *not* be distributed with the framework. This distinction is what allows you to have a concept of public and private APIs.
 
 **Xcode 5:**
@@ -165,9 +166,14 @@ You should end up with something similar to this:
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_copyheaders2.png)
 
+### Ongoing Step: Adding New Sources to the Framework
+
+Whenever you add new source to the framework you must decide whether to expose the .h publicly or
+not. To modify a header's scope you will follow the same process as Step 5. By default a header's
+scope will be "Project", meaning it will not be copied to the framework's public headers.
 
 
-### Step 3: Update the Public Headers Location
+### Step 6: Update the Public Headers Location
 
 By default the static library project will copy private and public headers to the same folder:
 `/usr/local/include`. To avoid mistakenly copying private headers to our framework we want to ensure
@@ -176,15 +182,10 @@ select the project in the Project Navigator and then click the "Build Settings" 
 headers" and then set the "Public Headers Folder Path" to "$(PROJECT_NAME)Headers" for all configurations.
 If you are working with multiple Frameworks make sure that this folder is unique.
 
-![](https://github.com/jverkoey/iOS-Framework/raw/master/gfx/publicheadersconfig.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_ProjectHeadersLocation.png)
 
-### Ongoing Step: Adding New Sources to the Framework
 
-Whenever you add new source to the framework you must decide whether to expose the .h publicly or
-not. To modify a header's scope you will follow the same process as Step 2. By default a header's
-scope will be "Project", meaning it will not be copied to the framework's public headers.
-
-### Step 4: Disable Code Stripping
+### Step 7: Disable Code Stripping
 
 We do not want to strip any code from the library; we leave this up to the application that is
 linking to the framework. To disable code stripping we must modify the following configuration
@@ -194,7 +195,8 @@ settings:
     "Strip Debug Symbols During Copy" => No (for all settings)
     "Strip Style" => Non-Global Symbols (for all settings)
 
-### Step 5: Prepare the Framework for use as a Dependent Target
+
+### Step 8: Prepare the Framework for use as a Dependent Target
 
 In order to use the static library as though it were a framework we're going to generate the basic
 skeleton of the framework in the static library target. To do this we'll include a simple post-build
