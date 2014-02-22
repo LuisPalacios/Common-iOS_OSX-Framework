@@ -25,8 +25,9 @@ Table of Contents
       - [Create the framework distribution target](#framework_distribution_target)  
       - [Create the Resources and Bundles](#resources)  
   - [OSX Framework](#osxframework)
+	  - [Cocoa Framework](#cocoaframework)
+  - [Using iOS/OSX Framworks in a project](#useinproject)
 - [License](#license)
-
 
 
 <a name="walkthrough" />
@@ -491,21 +492,104 @@ included Serenity framework.
 OSX Framework
 =============
 
-NOTE: THIS SECTION IS STILL WORK IN PROGRESS ... 
-
-...I have to add here the steps to create a Framework for OSX, pointing to the same sources/headers, which will be much easier
+Now let's go and create the XCode project for the OSX framework, which will have one targets: a cocoa Framework
 
 
+<a name="cocoaframework" />
+OSX Cocoa Framework
+-------------------
+
+### Step 1: Create a New "Cocoa Framework" Project
+
+Create a new project. Choose the same name `LPrncryptor`:
+
+- Xcode->File New Project->OSX Framework & Library->Cocoa Framework
+- Product Name: LPrncryptor
+- Directory: LPrncryptor/Framework-OSX
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_newproject.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_newprojectdir.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_newprojectname.png)
+
+### Step 2: Rename Project adding "_Framework-OSX"
+
+This step is very important for me, it's a personal preference. I like to rename the XCode project (but not its content) just to indicate this one is for OSX and to differentiate from previous iOSX project. 
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_renameProject1.png)
+
+***IMPORTANT: Don't rename the project content items,***
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_renameProject2.png)
+ 
+With versions previous to XCode 5, after this you may need to change the manage scheme. 
+
+### Step 3: Delete unnesary files and add Common code
+
+From XCode you can now delete the LPrncryptor.m and LPrncryptor.h files and send them to the trash, you don't need them.
+
+Next step, bind source and header files from the Common directory
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_bindcommon.png)
+
+Final result: 
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_bindcommondone.png)
 
 
-<a name="osxframework" />
+### Step 4: Use the Primary Framework Header
+
+You should have the main header file `LPrncryptor.h` that you created in the `iOS Step 4: Create Primary Framework Header` so you don't need to do anything else as it has been added in previous step 3 from the Common directory. Just remember in your OSX projects to import this file
+
+```
+#import <LPrncryptor/LPrncryptor.h>
+```
+
+### Step 5: Make headers public
+
+Make the Common headers "public". Public headers are headers that will be copied to the .framework and can be imported by those using your framework. These differs from "project" headers which will *not* be distributed with the framework. This distinction is what allows you to have a concept of public and private APIs.
+
+Go into the Target->Build Phases->Copy Headers and move the public ones from Project to Public, so you should have something like this: 
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_copyheaders.png)
+
+### Ongoing Step: Adding New Sources to the Framework
+
+Whenever you add new source to the framework you must decide whether to expose the .h publicly or
+not. To modify a header's scope you will follow the same process as Step 5. By default a header's
+scope will be "Project", meaning it will not be copied to the framework's public headers.
+
+
+### Step 6: Change installation directory
+
+In future projects where you are going to install this Framework I recomend to create a directory called "Frameworks"" in the root of your future project. Then it's necessary that you modify this Framework Build Setting `Dynamic Library Install Name`
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_installframework.png)
+
+
+### Step 7: Build and Verify
+
+You now have everything set up to build a distributable .framework to third-party developers. 
+
+IMPORTNAT: **SELECT YOUR Framework and build it**.
+
+Once it's done, expand the Products folder in Xcode, right click the
+LPrncrypto.framework and click "Show in Finder". It should be in a place like the following:
+`~/Library/Developer/Xcode/DerivedData/<project name>/Build/Products/Debug/`.
+
+Within this folder you will see your .framework folder. You can now drag the .framework elsewhere, zip it up, upload it, and distribute it to your third-party developers.
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_newTargetAggregate.png)
+
+
+
+<a name="useinproject" />
 Using iOS/OSX Frameworks in a project
 =====================================
 
-NOTE: THIS SECTION IS STILL WORK IN PROGRESS ... 
+Now that you have your .framework files, one for iOS and one for OSX it's very easy to use them in different projects. Here is an example of how I'm using these two frameworks I just created in a different project called `farAdmin`
 
-...I have to add here an example of how to add the recently created .framework files in a different project. 
-
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse1.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse2.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse3.png)
 
 
 
