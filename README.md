@@ -25,6 +25,9 @@ Table of Contents
   - [Overview](#overview)
   - [Common](#overview)
   - [iOS Framework](#iosframework)
+      - [Create the static library](#staticlibrary)    
+      - [Create the framework distribution target](#framework_distribution_target)  
+      - [Create the Resources and Bundles](#resources)  
   - [OSX Framework](#osxframework)
 - [License](#license)
 
@@ -80,7 +83,7 @@ The bundle target will contain all of our resources and will be loadable from th
 The aggregate target will build the static library for i386/armv6/armv7/armv7s, generate the fat framework binary, and also build the bundle. You will run this target when you plan to distribute the .framework.
 
 
-<a name="static_library_target" />
+<a name="staticlibrary" />
 iOS Framework: Create the Static Library Target
 ----------------------------------------
 
@@ -255,7 +258,7 @@ see a `libLPrncryptor.a` static library, a `Headers` folder, and a `LPrncryptor.
 
 
 <a name="framework_distribution_target">
-Create the Framework Distribution Target
+iOS Framework: Distribution Target
 ----------------------------------------
 
 When actively developing the framework we only care to build the platform that we're testing on. For
@@ -387,14 +390,10 @@ third-party developers.
 
 
 
-
-
-
-
-
 <a name="resources" />
-Resources and Bundles
-=====================
+iOS Framework: Resources and Bundles
+----------------------------------------
+I'm not using this section, so I'm just leaving the original from jverkoey: <a href="https://github.com/jverkoey/iOS-Framework">How to create, develop, and distribute iOS Static Frameworks quickly and efficiently</a>.
 
 To distribute resources with a framework, we are going to provide the developer with a separate
 .bundle that contains all of the strings and resources. This distribution method provides a number
@@ -495,13 +494,13 @@ included Serenity framework.
 
 
 
-
 <a name="osxframework" />
 OSX Framework
 =============
 
 
-crear tres directorios the project we are going to have three targets: a static library, a bundle, and an aggregate.
+WORK IN PROGRESS... I have to add here the steps to create a Framework for OSX, pointing to the same sources/headers, which will be much easier
+
 
 
 <a name="license" />
