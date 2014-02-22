@@ -1,5 +1,3 @@
-NOTE: THIS DOCUMENT IS STILL WORK IN PROGRESS ... 
-
 Introduction
 ============
 
@@ -498,8 +496,9 @@ included Serenity framework.
 OSX Framework
 =============
 
+NOTE: THIS SECTION IS STILL WORK IN PROGRESS ... 
 
-WORK IN PROGRESS... I have to add here the steps to create a Framework for OSX, pointing to the same sources/headers, which will be much easier
+...I have to add here the steps to create a Framework for OSX, pointing to the same sources/headers, which will be much easier
 
 
 
