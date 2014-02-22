@@ -211,7 +211,7 @@ script. Add a post-build script by selecting your project in the Project Navigat
 Paste the following script in the source portion of the run script build phase. You can rename the phase by clicking
 the title of the phase (I've named it "LP_Prepare Framework (Run Script)", for example).
 
-#### prepare_framework.sh
+#### Script that Prepares the framework
 
 ```bash
 set -e
@@ -237,32 +237,29 @@ This will generate the following folder structure:
 ```
 -- Note: "->" denotes a symbolic link --
 
-Serenity.framework/
+LPrncryptor.framework/
   Headers/ -> Versions/Current/Headers
-  Serenity -> Versions/Current/Serenity
+  LPrncryptor -> Versions/Current/LPrncryptor
   Versions/
     A/
       Headers/
-        Serenity.h
-        Widget.h
+        LPrncryptor.h
+        RNCryptor.h        RNCryptorEngine.h        RNDecryptor.h        RNEncryptor.h
     Current -> A
 ```
 
 Try building your project now and look at the build products directory (usually
 `~/Library/Developer/Xcode/DerivedData/<ProjectName>-<gibberish>/Build/Products/...`). You should
-see a `libSerenity.a` static library, a `Headers` folder, and a `Serenity.framework` folder that
-contains the basic skeleton of your framework.
+see a `libLPrncryptor.a` static library, a `Headers` folder, and a `LPrncryptor.framework` folder that contains the basic skeleton of your framework.
 
-![](https://github.com/jverkoey/iOS-Framework/raw/master/gfx/buildphase1.png)
+
 
 <a name="framework_distribution_target">
 Create the Framework Distribution Target
 ----------------------------------------
 
 When actively developing the framework we only care to build the platform that we're testing on. For
-example, if we're testing on the iPhone simulator then we only need to build the i386 platform.
-
-This changes when we want to distribute the framework to third party developers. The third-party
+example, if we're testing on the iPhone simulator then we only need to build the i386 platform. This changes when we want to distribute the framework to third party developers. The third-party
 developers don't have the option of rebuilding the framework for each platform, so we must provide
 what is called a "fat binary" version of the static library that is comprised of the possible
 platforms. These platforms include: i386, armv6, armv7, and armv7s.
@@ -273,20 +270,23 @@ To generate this fat binary we're going to build the static library target for e
 
 Click File > New Target > iOS > Other and create a new Aggregate target. Title it something like "Framework".
 
-![](https://github.com/jverkoey/iOS-Framework/raw/master/gfx/aggregatetarget.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newTargetAggregate1.png)
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newTargetAggregate2.png)
 
 ### Step 2: Add the Static Library as a Dependent Target
 
 Add the static library target to the "Target Dependencies".
 
-![](https://github.com/jverkoey/iOS-Framework/raw/master/gfx/targetdependencies.png)
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newTargetAggregate3.png)
+
 
 ### Step 3: Build the Other Platform
 
 To build the other platform we're going to use a "Run Script" phase to execute some basic commands.
-Add a new "Run Script" build phase to your aggregate target and paste the following code into it.
+Add a new "Run Script" build phase to your aggregate target and paste the following code into it. You can rename the phase by clicking the title of the phase (I've named it "LP_Create Fat Framework (Run Script)", for example).
 
-#### build_framework.sh
+#### Script to create the Fat framework
 
 ```bash
 set -e
@@ -356,12 +356,14 @@ The above script assumes that your library name matches your project name in the
 SF_TARGET_NAME=${PROJECT_NAME}
 ```
 
-If this is not the case (e.g. your xcode project is named SerenityFramework and the target name is
-Serenity) then you need to explicitly set the target name on that line. For example:
+As this is not the case, (e.g. my xcode project is named LPrncryptor_Framework-iOS and the target name is LPrncryptor) then I have explicitly set the target name on that line. For example:
 
 ```bash
-SF_TARGET_NAME=Serenity
+SF_TARGET_NAME="LPrncryptor"
 ```
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newTargetAggregate4.png)
+
 
 ### Step 4: Build and Verify
 
@@ -375,6 +377,14 @@ Within this folder you will see your .framework folder.
 
 You can now drag the .framework elsewhere, zip it up, upload it, and distribute it to your
 third-party developers.
+
+
+
+
+
+
+
+
 
 <a name="resources" />
 Resources and Bundles
