@@ -1,19 +1,17 @@
 Introduction
 ============
 
-How to create two frameworks, one for iOS and one for OSX, both sharing the same source and header files.
+This document describes how to create an iOS and OSX framework that both share same source and header files. This is something I need to do from time to time, however I allways forget HowTo, so I've written this document and hope it's also helpful for the community.
 
-Every time I want to create code that will be shared by a project for iOS and OSX then I don't remember the HowTo, so I've written this document just for that and also return something to the community. 
-
-This work is based on the excellent one done by jverkoey: <a href="https://github.com/jverkoey/iOS-Framework">How to create, develop, and distribute iOS Static Frameworks quickly and efficiently</a>.
-
-In order to document by example, I'm using a real project, **RNCryptor** <a href="https://github.com/RNCryptor/RNCryptor">CCCryptor (AES encryption) wrappers for iOS and Mac</a>, a library which fits very well to create two frameworks (iOS & OSX) both using the same sources and headers.
-<br />
-<br />
+The whoel iOS idea on how to create a Framework is coming from the excellent document done by jverkoey: <a href="https://github.com/jverkoey/iOS-Framework">How to create, develop, and distribute iOS Static Frameworks quickly and efficiently</a>.
 
 <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.
 <br /a>
 <br /a>
+
+I'm using real code to create both Frameworks, indeed the code is from a project called **RNCryptor** <a href="https://github.com/RNCryptor/RNCryptor">CCCryptor (AES encryption) wrappers for iOS and Mac</a>, a library which fits very well in my objective, to create two frameworks (iOS & OSX) both using the same sources and headers.
+<br />
+<br />
 
 
 Table of Contents 
@@ -30,46 +28,36 @@ Table of Contents
 - [License](#license)
 
 
+
 <a name="walkthrough" />
 Common iOS and OSX Frameworks
 ========================================
 
-Objective is to create two frameworks, one for iOS and a different one for OSX, however both will share same source and header files.
 
-I'm using the RNCryptor project as an example, however I'll call my project with a different name in order to differentiate: "LPrncryptor".
+As I mentioned I'm using the RNCryptor project as an example, however my Framework will be called "LPrncryptor" and the XCode project will be renamed to LPrncryptor_Framework-iOS.xcodeproj and LPrncryptor_Framework-OSX.xcodeproj.
 
 
 <a name="overview" />
 Overview
 ========
 
-First I'm going to create three directories, one for the common code and the other two for iOS and OSX Xcode frameworks. 
+First I'm going to create three directories, one for the common code and the other two for iOS and OSX Xcode Projects.
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-dirStructure.png)
-
-I'll copy the common code into the Common directory and then create a iOS Framework (this one is the difficult part) and finally create an OSX Framework (easy). 
-
-- LPrncryptor
-	- Common
-	- Framework-iOS
-	- Framework-OSX 
-
 
 
 <a name="common" />
 Common code
 ===========
-As I mentioned, I'm using the code from the real project, **RNCryptor** <a href="https://github.com/RNCryptor/RNCryptor">CCCryptor (AES encryption) wrappers for iOS and Mac</a>, a library which fits very well to create two frameworks (iOS & OSX) both using the same sources and headers.
-<br />
-First step is to copy the common code in a common directory, so in this case I copy just the source and header files:
+I grabbed a copy from the real project, **RNCryptor** <a href="https://github.com/RNCryptor/RNCryptor">CCCryptor (AES encryption) wrappers for iOS and Mac</a>, and then copy the main files into the Common directory:
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-CommonCopy.png)
 
-Next step is the creation of the Frameworks
+Now that I have my common code lets create the iOS project and tweak it so it will create a .framework. 
+
 
 <a name="iosframework" />
-
-Create the iOS Project
+iOS Project
 ========================
 
 First step is to create an XCode project for the iOS framework, which will have three targets: a static library, a bundle, and an aggregate.
@@ -82,14 +70,12 @@ The aggregate target will build the static library for i386/armv6/armv7/armv7s, 
 
 
 <a name="staticlibrary" />
-iOS Framework: Create the Static Library Target
+iOS Framework: Static Library Target
 ----------------------------------------
 
 ### Step 1: Create a New "Cocoa Touch Static Library" Project
 
-
-The product name will be the name of your framework, in my case, `LPrncryptor` will generate
-`LPrncryptor.framework` once we've set up the project.
+First step is to create a new project. Choose the same name that you want your Future framework to have. In my case the product name will be `LPrncryptor`, you'll see later that my framwork will also be named `LPrncryptor.framework`, so lets go ahead:
 
 - Xcode->File New Project->iOS Framework & Library->Cocoa Touch Static Library
 - Product Name: LPrncryptor
@@ -99,22 +85,21 @@ The product name will be the name of your framework, in my case, `LPrncryptor` w
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newprojectdir.png)
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newprojectname.png)
 
-So you end up with something similar to 
+Final result: 
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_projectinit.png)
 
 
 
-
 ### Step 2: Rename Project adding "_Framework-iOS"
 
-I like to rename the XCode project (not its subdirctories nor the groups or files) to highlight it's for iOS. I like to have a name like LPrncryptor_Framework-iOS.xcodeproj for the Project file and a different name "LPrncryptor" for everything else. The reason is simple, I like to differentiate correctly from the OSX framework project that I'll create later. 
+This step is very important for me, it's a personal preference. I like to rename the XCode project (but not its content) just to indicate this one is for iOS. I'll do the same later for the OSX one, so when I have both open pointing to the same sources I know where I am... 
 
-So, within XCode and the iOS project open, rename it:
+In summary, I will end up having a Project called "LPrncryptor_Framework-iOS.xcodeproj" where all its contents will be called "LPrncryptor". So, within XCode, click on the project name and rename it: 
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_renameProject1.png)
 
-Don't rename the project content items, 
+***IMPORTANT: Don't rename the project content items,***
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_renameProject2.png)
  
@@ -122,31 +107,31 @@ With versions previous to XCode 5, after this you may need to change the manage 
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_renameProject3.png)
 
-If using XCode 5 I've found it's not necessary.
+I'm using XCode 5 and I've found it's not necessary.
 
 ### Step 3: Delete unnesary files and add Common code
 
-From XCode you can now delete the LPrncryptor.m and LPrncryptor.h files and send them to the trash.
+From XCode you can now delete the LPrncryptor.m and LPrncryptor.h files and send them to the trash, you don't need them.
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_deleteTwoFiles.png)
 
-Then bind the common source and header files from the Common directory
+Next step, bind source and header files from the Common directory
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_bindcommon.png)
 
-so you sould get something similar to the following: 
+Final result: 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_bindcommondone.png)
 
 
-### Step 4: Create the Primary Framework Header
+### Step 4: Create Primary Framework Header
 
-Developers expect to be able to import your framework and do it just by importing one file. In my example it will the be `<LPrncryptor/LPrncryptor.h>` header. Ensure that your project has such a header. So, go and create such file under LPrncryptor group and *important: under the same Commoon directory where you copied all the common files*. File->new file->iOS->C and C++->Header file and name it LPrncryptor.h and check the LPrncryptor target.
+Developers expect to be able to import your framework just by importing one file. In my example it will the be `<LPrncryptor/LPrncryptor.h>` header. I recommend that your project has such one header that imports all the public ones. Create such file under LPrncryptor group and select the same *Commoon directory where you copied all the common files*. File->new file->iOS->C and C++->Header file. I've named it LPrncryptor.h (and made sure I check the LPrncryptor target).
 
-Within this header you are going to import **all of the public headers for your framework**. I'm my example they will be: RNCryptor.h, RNCryptorEngine.h, RNDecryptor.h, RNEncryptor.h but not the file RNCryptor+Private.h which is private. So, the final aspect of my new file would be: 
+Within this header you are going to import **all of your framework's public headers**. I'm my example the are: RNCryptor.h, RNCryptorEngine.h, RNDecryptor.h, RNEncryptor.h, and not the file RNCryptor+Private.h which is private. So, the final result of my new file would be: 
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-CommonHeader.png)
 
-Then in your projects you only import this file
+Then in your projects you will only import this file
 
 ```
 #import <Foundation/Foundation.h>
@@ -156,7 +141,7 @@ Then in your projects you only import this file
 
 ### Step 5: Make headers public
 
-Once you've created your framework header file and have the Common files, you just need to make it them "public" header. Public headers are headers that will be copied to the .framework and can be imported by those using your framework. This differs from "project" headers which will *not* be distributed with the framework. This distinction is what allows you to have a concept of public and private APIs.
+Once you've created your framework header file you need to make the Common headers "public". Public headers are headers that will be copied to the .framework and can be imported by those using your framework. These differs from "project" headers which will *not* be distributed with the framework. This distinction is what allows you to have a concept of public and private APIs.
 
 **Xcode 5:**
 Add Build Phases from the menu. Click on Editor > Add Build Setting -> Add Copy Headers. Note: If the menu options are grayed out, you'll need to click on the whitespace below the Build Phases to regain focus and retry.
@@ -198,9 +183,18 @@ settings:
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_nostrip.png)
 
-### Step 8: Prepare the Framework for use as a Dependent Target
+### Step 8: Build for all architectures
 
-In order to use the static library as though it were a framework we're going to generate the basic
+Make sure you build for all architectures, so set "Build Active Architecture Only" to NO on both Debug and Release under Build Settings
+
+    "Build Active Architecture Only" => No (for all settings)
+
+![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_allarchs.png)
+
+
+### Step 9: Prepare Framework skeleton
+
+In order to use the static library as it were a framework we're going to generate the basic
 skeleton of the framework in the static library target. To do this we'll include a simple post-build
 script. Add a post-build script by selecting your project in the Project Navigator, selecting the target, and then the
 "Build Phases" tab. 
@@ -210,7 +204,7 @@ script. Add a post-build script by selecting your project in the Project Navigat
 **Xcode 5:** Select Editor menu > Add Build Phase > Add Run Script Build Phase
 
 Paste the following script in the source portion of the run script build phase. You can rename the phase by clicking
-the title of the phase (I've named it "LP_Prepare Framework (Run Script)", for example).
+the title of the phase (I've named it "LP_Prepare Framework (Run Script)"
 
 #### Script that Prepares the framework
 
@@ -259,11 +253,7 @@ see a `libLPrncryptor.a` static library, a `Headers` folder, and a `LPrncryptor.
 iOS Framework: Distribution Target
 ----------------------------------------
 
-When actively developing the framework we only care to build the platform that we're testing on. For
-example, if we're testing on the iPhone simulator then we only need to build the i386 platform. This changes when we want to distribute the framework to third party developers. The third-party
-developers don't have the option of rebuilding the framework for each platform, so we must provide
-what is called a "fat binary" version of the static library that is comprised of the possible
-platforms. These platforms include: i386, armv6, armv7, and armv7s.
+We must provide what is called a "fat binary" version of the static library that is comprised of all the possible platforms. These platforms include iphonesimulator (i386, x86_64) and iphoneos (armv6, armv7, and armv7s).
 
 To generate this fat binary we're going to build the static library target for each platform.
 
@@ -284,7 +274,7 @@ Add the static library target to the "Target Dependencies".
 
 ### Step 3: Build the Other Platform
 
-To build the other platform we're going to use a "Run Script" phase to execute some basic commands.
+To build all platforms we're going to use a "Run Script" phase to execute some basic commands.
 Add a new "Run Script" build phase to your aggregate target and paste the following code into it. You can rename the phase by clicking the title of the phase (I've named it "LP_Create Fat Framework (Run Script)", for example).
 
 #### Script to create the Fat framework
@@ -370,7 +360,10 @@ SF_TARGET_NAME="LPrncryptor"
 
 You now have everything set up to build a distributable .framework to third-party developers. 
 
-**SELECT YOUR Aggregate target and build it**. Notice this step, it's important, don't select the LPrncryptor target but the "Aggregate" target, in my case I'm selecting mine, that I called "Framework"
+
+IMPORTNAT: **SELECT YOUR Aggregate target and build it**.
+
+Notice this step, it's important to select the "Aggregate" and not the LPrncryptor target.
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newTargetAggregate5.png)
 
@@ -385,6 +378,8 @@ You can now drag the .framework elsewhere, zip it up, upload it, and distribute 
 third-party developers.
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_newTargetAggregate6.png)
+
+Note: When you build the Aggregate you'll get the same LPrncryptor.framework either under iphoneos or iphonesimulator, the script is responsible of duplicating it to make sure you have the saome on both sides. You only need to copy one of them in order to use it in another project.
 
 
 
@@ -499,6 +494,18 @@ OSX Framework
 NOTE: THIS SECTION IS STILL WORK IN PROGRESS ... 
 
 ...I have to add here the steps to create a Framework for OSX, pointing to the same sources/headers, which will be much easier
+
+
+
+
+<a name="osxframework" />
+Using iOS/OSX Frameworks in a project
+=====================================
+
+NOTE: THIS SECTION IS STILL WORK IN PROGRESS ... 
+
+...I have to add here an example of how to add the recently created .framework files in a different project. 
+
 
 
 
