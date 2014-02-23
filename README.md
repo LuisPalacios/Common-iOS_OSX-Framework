@@ -186,9 +186,9 @@ settings:
 
 ### Step 8: Build for all architectures
 
-It's important to know that you need to build for all architectures (i386 x86_64 armv7 armv7s arm64). In the "iOS Framework: Distribution Target->Step 3: Build the Other Platform" we create a script that takes care of it adding "ONLY_ACTIVE_ARCH=NO" to one of the commands. 
+It's important to know that you need to build for all architectures (i386 x86_64 armv7 armv7s arm64). In the "iOS Framework: Distribution Target->Step 3: Build the Other Platform" we create a script that takes care of it adding "ONLY_ACTIVE_ARCH=NO" to one of the commands, but depending on which target you select later when you build you may end up missing one of the architectures.
 
-So, you don't have to, but here is the alternative, set "Build Active Architecture Only" to NO on both Debug and Release under Build Settings
+So, in order to make sure set "Build Active Architecture Only" to NO on both Debug and Release under Build Settings on both the project and target:
 
     "Build Active Architecture Only" => No (for all settings)
 
