@@ -201,6 +201,20 @@ $ lipo -info LPrncryptor.framework/LPrncryptor
 Architectures in the fat file: LPrncryptor.framework/LPrncryptor are: i386 x86_64 armv7 armv7s arm64
 ```
 
+Yet another useful command that I anticipate you may want to look at is the following: 
+
+```
+$ otool -l LPrncryptor.framework/LPrncryptor |grep " name "
+         name @executable_path/../Frameworks/LPrncryptor.framework/Versions/A/LPrncryptor (offset 24)
+         name /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa (offset 24)
+         name /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (offset 24)
+         name /usr/lib/libobjc.A.dylib (offset 24)
+         name /usr/lib/libSystem.B.dylib (offset 24)
+         name /System/Library/Frameworks/Security.framework/Versions/A/Security (offset 24)
+         name /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (offset 24)
+```
+
+         
 ### Step 9: Prepare Framework skeleton
 
 In order to use the static library as it were a framework we're going to generate the basic
@@ -575,7 +589,11 @@ scope will be "Project", meaning it will not be copied to the framework's public
 
 ### Step 6: Change installation directory
 
-In future projects where you are going to install this Framework I recomend to create a directory called "Frameworks"" in the root of your future project. Then it's necessary that you modify this Framework Build Setting `Dynamic Library Install Name`
+In future  you'll add this Framework to other projects, so you need to modify this Build Setting:
+
+    "Dynamic Library Install Name" => @executable_path/../Frameworks/$(EXECUTABLE_PATH)
+
+Note that @executable_path/../Frameworks/$(EXECUTABLE_PATH) will expand to the current name of the library, which is exactly what we want
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-OSX_installframework.png)
 
