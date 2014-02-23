@@ -347,8 +347,6 @@ xcrun xcodebuild ONLY_ACTIVE_ARCH=NO -project "${PROJECT_FILE_PATH}" -target "${
 # when using cocoapods, change to this :
 # xcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace "${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace" -scheme "${TARGET_NAME}" -configuration "${CONFIGURATION}" -sdk ${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR="${BUILD_DIR}" OBJROOT="${OBJROOT}" BUILD_ROOT="${BUILD_ROOT}" SYMROOT="${SYMROOT}" $ACTION
 
-
-
 # Smash the two static libraries into one fat binary and store it in the .framework
 xcrun lipo -create "${BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}" "${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}" -output "${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}"
 
@@ -404,7 +402,7 @@ Note: When you build the Aggregate you'll get the same LPrncryptor.framework eit
 <a name="resources" />
 iOS Framework: Resources and Bundles
 ----------------------------------------
-I'm not using this section, so I'm just leaving the original from jverkoey: <a href="https://github.com/jverkoey/iOS-Framework">How to create, develop, and distribute iOS Static Frameworks quickly and efficiently</a>.
+I'm not using this section, I mean, I do not have resources and bundles in my framework to add, so I have not documented this section as per my project example. As this is important I'm just leaving the original from jverkoey: <a href="https://github.com/jverkoey/iOS-Framework">How to create, develop, and distribute iOS Static Frameworks quickly and efficiently</a>.
 
 To distribute resources with a framework, we are going to provide the developer with a separate
 .bundle that contains all of the strings and resources. This distribution method provides a number
