@@ -624,10 +624,15 @@ You may have a workspace project where you are sharing code between iOS and OSX 
 Here is an example of how I'm using these two frameworks I just created in a one Workspace called `farAdmin` which has two projects inside, one for iOS and one for OSX, sharing its own common code and "wanting" various Framworks specific for iOS and for OSX.
 
 As you can see in the directory design, I've separated directory for the Frameworks and for the iOS and OSX versions. 
+
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse1.png)
+
 Then I bind manually the correct one to the sub-project inside the Workspace 
+
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse2.png)
+
 In the case of OSX sub-project don't forget the copy files phase
+
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse3.png)
 
 
