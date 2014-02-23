@@ -186,12 +186,20 @@ settings:
 
 ### Step 8: Build for all architectures
 
-Make sure you build for all architectures, so set "Build Active Architecture Only" to NO on both Debug and Release under Build Settings
+It's important to know that you need to build for all architectures (i386 x86_64 armv7 armv7s arm64). In the "iOS Framework: Distribution Target->Step 3: Build the Other Platform" we create a script that takes care of it adding "ONLY_ACTIVE_ARCH=NO" to one of the commands. 
+
+So, you don't have to, but here is the alternative, set "Build Active Architecture Only" to NO on both Debug and Release under Build Settings
 
     "Build Active Architecture Only" => No (for all settings)
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-iOS_allarchs.png)
 
+In case you need to double check later if all architectures where built, you'll be able to use the following command
+
+```
+$ lipo -info LPrncryptor.framework/LPrncryptor
+Architectures in the fat file: LPrncryptor.framework/LPrncryptor are: i386 x86_64 armv7 armv7s arm64
+```
 
 ### Step 9: Prepare Framework skeleton
 
@@ -330,7 +338,16 @@ else
 fi
 
 # Build the other platform.
-xcrun xcodebuild -project "${PROJECT_FILE_PATH}" -target "${TARGET_NAME}" -configuration "${CONFIGURATION}" -sdk ${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR="${BUILD_DIR}" OBJROOT="${OBJROOT}" BUILD_ROOT="${BUILD_ROOT}" SYMROOT="${SYMROOT}" $ACTION
+# Without cocoapods
+xcrun xcodebuild ONLY_ACTIVE_ARCH=NO -project "${PROJECT_FILE_PATH}" -target "${TARGET_NAME}" -configuration "${CONFIGURATION}" -sdk ${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR="${BUILD_DIR}" OBJROOT="${OBJROOT}" BUILD_ROOT="${BUILD_ROOT}" SYMROOT="${SYMROOT}" $ACTION
+
+# Build the other platform.
+# With cocoapods
+# As documented here: https://github.com/jverkoey/iOS-Framework/issues/46
+# when using cocoapods, change to this :
+# xcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace "${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace" -scheme "${TARGET_NAME}" -configuration "${CONFIGURATION}" -sdk ${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR="${BUILD_DIR}" OBJROOT="${OBJROOT}" BUILD_ROOT="${BUILD_ROOT}" SYMROOT="${SYMROOT}" $ACTION
+
+
 
 # Smash the two static libraries into one fat binary and store it in the .framework
 xcrun lipo -create "${BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}" "${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}" -output "${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}"
