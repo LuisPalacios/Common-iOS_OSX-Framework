@@ -582,15 +582,53 @@ Within this folder you will see your .framework folder. You can now drag the .fr
 
 
 <a name="useinproject" />
-Using iOS/OSX Frameworks in a project
+Using Frameworks in a project
 =====================================
 
-Now that you have your .framework files, one for iOS and one for OSX it's very easy to use them in different projects. Here is an example of how I'm using these two frameworks I just created in a different project called `farAdmin`
+Use the iOS Framework
+----------------------
 
+Adding LPrncryptor.framework to your iOS project.
+
+- Open your project in Xcode.
+- Drag the LPrncryptor.framework file into your project in Xcode.
+- Make sure Copy items into destination group's folder is selected. Press the Finish button.
+
+Ensure that you have any additional frameworks needed by your own one. For example, in the case of the LPrncryptor I have to add also the Security.framework
+
+
+Use the OSX Framework
+----------------------
+
+Adding LPrncryptor.framework to your OSX project.
+
+- Open your project in Xcode.
+- Drag the LPrncryptor.framework file into your project in Xcode.
+- Make sure Copy items into destination group's folder is selected. Press the Finish button.
+
+Now you want to make sure that the framework will be copied into your app bundle.
+
+- Select the root of your project in the Project Navigator. This will show the project's configuration. Select the Build Phases tab which will show a list of Build Phases.
+- If you do not see a Copy Files build phase, go to the menu bar and select Editor > Add Build Phase > Add Copy Files Build Phase.
+- In the new build phase just added, set the destination to Frameworks.
+- Click the + button and select the Dropbox.framework you just added.
+
+Ensure that you have any additional frameworks needed by your own one. For example, in the case of the LPrncryptor I have to add also the Security.framework
+
+
+Using both in the same workspace
+--------------------------------
+
+You may have a workspace project where you are sharing code between iOS and OSX and you have also two projects inside, one for specific iOS code and another one for specific OSX code. In such scenario you may need to bind different versions (iOS & OSX) of the Framwork inside the same workspace. 
+
+Here is an example of how I'm using these two frameworks I just created in a one Workspace called `farAdmin` which has two projects inside, one for iOS and one for OSX, sharing its own common code and "wanting" various Framworks specific for iOS and for OSX.
+
+As you can see in the directory design, I've separated directory for the Frameworks and for the iOS and OSX versions. 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse1.png)
+Then I bind manually the correct one to the sub-project inside the Workspace 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse2.png)
+In the case of OSX sub-project don't forget the copy files phase
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse3.png)
-
 
 
 <a name="license" />
