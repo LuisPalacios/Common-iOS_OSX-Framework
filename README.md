@@ -619,21 +619,13 @@ Ensure that you have any additional frameworks needed by your own one. For examp
 Using both in the same workspace
 --------------------------------
 
-You may have a workspace project where you are sharing code between iOS and OSX and you have also two projects inside, one for specific iOS code and another one for specific OSX code. In such scenario you may need to bind different versions (iOS & OSX) of the Framwork inside the same workspace. 
+Imaging you have a Workspace where you have two projects inside, one for iOS and second for OSX, and where you also share common code (valid for both). In such scenario you may need to also insert your Frameworks ()different version iOS & OSX) inside these workspace. 
 
-Here is an example of how I'm using these two frameworks I just created in a one Workspace called `farAdmin` which has two projects inside, one for iOS and one for OSX, sharing its own common code and "wanting" various Framworks specific for iOS and for OSX.
-
-As you can see in the directory design, I've separated directory for the Frameworks and for the iOS and OSX versions. 
+Here is an example of how I'm doing so, I created a Workspace called `farAdmin` which has two projects inside, one for iOS and one for OSX. As you can see in the directory design and binding, I've different directories for the iOS and OSX Frameworks
 
 ![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse1.png)
 
-Then I bind manually the correct one to the sub-project inside the Workspace 
-
-![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse2.png)
-
 In the case of OSX sub-project don't forget the copy files phase
-
-![image](https://raw.github.com/LuisPalacios/Common-iOS_OSX-Framework/master/images/lp-projectUse3.png)
 
 
 <a name="license" />
